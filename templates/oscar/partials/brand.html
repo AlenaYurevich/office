@@ -1,0 +1,13 @@
+{% extends 'oscar/partials/brand.html' %}
+{% load i18n %}
+{% load static %}
+
+
+
+<div class="brand">
+     {% block brand_title %}
+    <a href="{{ homepage_url }}">
+        <img src="{% static 'oscar/img/logo.jpg' %}" alt="Logo" width=220>
+    </a>
+        {% endblock %}
+</div>

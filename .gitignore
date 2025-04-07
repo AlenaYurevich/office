@@ -1,0 +1,6 @@
+/venv/
+/office/settings.py
+/images/
+/cache/
+/staticfiles/
+/db.sqlite3/
