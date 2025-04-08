@@ -24,6 +24,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    path('', include('pages.urls')),
     path('', include(apps.get_app_config('oscar').urls[0])),
     path('admin/', admin.site.urls),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'pages.views.custom_page_not_found'
