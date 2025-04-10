@@ -29,6 +29,7 @@
 
     {% block navbar_collapse %}
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
+
             {% block nav %}
                 <ul class="navbar-nav mr-auto">
                     {% block nav_items %}
@@ -55,8 +56,11 @@
                </ul>
             {% endblock %}
             {% block nav_extra %}
+            <div class="px-xl-5">
                 {% include "oscar/partials/search.html" %}
+                </div>
             {% endblock %}
+
         </div>
     {% endblock %}
 </nav>
