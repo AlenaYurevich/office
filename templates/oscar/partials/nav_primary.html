@@ -2,7 +2,7 @@
 {% load category_tags %}
 {% load i18n %}
 
-<nav class="{% block nav_classes %}navbar  navbar-expand-lg navbar-dark bg-dark{% endblock %}">
+<nav class="{% block nav_classes %}navbar navbar-expand-lg navbar-dark bg-dark mb-30{% endblock %}">
     {% block navbar_toggler %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,13 +28,13 @@
     {% endblock %}
 
     {% block navbar_collapse %}
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
             {% block nav %}
                 <ul class="navbar-nav mr-auto">
                     {% block nav_items %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {% block browse_store_text %}{% trans "Browse store" %}{% endblock %}
+                            <a class="nav-link dropdown-toggle w-100" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bars mr-2"></i>{% block browse_store_text %}  {% trans "Категории" %} <i class="fa fa-angle-down "></i>{% endblock %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {% category_tree depth=1 as tree_categories %}
@@ -54,7 +54,6 @@
                    {% endblock %}
                </ul>
             {% endblock %}
-
             {% block nav_extra %}
                 {% include "oscar/partials/search.html" %}
             {% endblock %}

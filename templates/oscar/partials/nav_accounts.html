@@ -5,18 +5,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="container-fluid">
-
         <div class="navbar-collapse account-collapse collapse">
- <div class="row bg-secondary py-1 px-xl-5">
-      <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center h-100">
-                    <a class="text-body mr-3" href="">About</a>
-                    <a class="text-body mr-3" href="">Contact</a>
-                    <a class="text-body mr-3" href="">Help</a>
-                    <a class="text-body mr-3" href="">FAQs</a>
-                </div>
-            </div>
-     </div>
             {% block nav_account_languages %}
             {% if LANGUAGES|length > 1 %}
                 <form id="language_selector" class="form-inline mb-0 mt-2 mt-lg-0" action="{% url 'set_language' %}" method="post">
