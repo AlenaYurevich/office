@@ -17,14 +17,12 @@
 {% block layout %}
     {# Top-horizontal bar with account, notifictions, dashboard links #}
     {% include "oscar/partials/nav_accounts.html" %}
-
     {# Site logo/title, mini-basket, browse dropdown and searchbox #}
 
         <header class="header container-fluid">
         <div class="page_inner">
             <div class="row justify-content-between">
                 {% include "oscar/partials/brand.html" %}
-
                 {# Mini-basket wrapped in a block so some templates can now display it #}
                 {% block mini_basket %}{% include "oscar/partials/mini_basket.html" %}{% endblock %}
             </div>
@@ -33,9 +31,8 @@
             {% include "oscar/partials/nav_primary.html" %}
         {% endblock %}
     </header>
+
 <body>
-
-
 
     <!-- Carousel Start -->
     <div class="container-fluid mb-3">
@@ -54,7 +51,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Канцелярские товары</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Канцелярские товары для офиса и дома оптом и в розницу</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='kantselyarskie-tovary_4' %}">Смотреть</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='kantselyarskie-tovary' pk=4 %}">Смотреть</a>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +61,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Бытовая химия</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Безопасные и эффективные средства для уборки и дезинфекции помещений</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='bytovaya-khimiya-moyushchie-sredstva_2' %}">Смотреть</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='bytovaya-khimiya-moyushchie-sredstva' pk=2 %}">Смотреть</a>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +71,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Антисептики</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Гигиенические антисептики для обработки рук</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='antiseptiki_1' %}">Смотреть</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'category_view' slug='antiseptiki' pk=1 %}">Смотреть</a>
                                 </div>
                             </div>
                         </div>
@@ -137,54 +134,30 @@
 
 
     <!-- Categories Start -->
-    <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Категории</span></h2>
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
+     <div class="container-fluid pt-5">
+         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Категории</span></h2>
+         <div class="row px-xl-5 pb-3">
+    {% for category in categories %}
+             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                  <a class="text-decoration-none" href="{% url 'category_view' slug=category.slug pk=category.pk %}">
+                  <div class="cat-item d-flex align-items-center mb-4">
+                      <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                     {% if category.image %}
+                        <img class="img-fluid" src="{{ category.image.url }}" alt="{{ category.name }}">
+                     {% else %}
+                     <p>No image available</p>
+                     {% endif %}
                         </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-
+         <div class="flex-fill pl-3">
+        <h6>{{ category.name }}</h6>
+         <small class="text-body">{{ category.product_count }} товаров</small>
         </div>
-    </div>
-    <!-- Categories End -->
-
+                  </div>
+                  </a>
+            </div>
+    {% endfor %}
+        </div>
+     </div>
 
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
@@ -578,28 +551,28 @@
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
                     <div class="bg-light p-4">
-                        <img src="img/vendor-1.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0001.jpg' %}" alt="ArtSpace">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-2.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0002.jpg' %}" alt="Daryish">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-3.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0003.png' %}" alt="Maped">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-4.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0004.png' %}" alt="Deli">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-5.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0005.jpg' %}" alt="Factis">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-6.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0006.jpg' %}" alt="ProfPress">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-7.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0007.png' %}" alt="Hatber">
                     </div>
                     <div class="bg-light p-4">
-                        <img src="img/vendor-8.jpg" alt="Бренд">
+                        <img src="{% static 'oscar/img/b0008.png' %}" alt="Berlingo">
                     </div>
                 </div>
             </div>
@@ -609,6 +582,7 @@
 
  {% include "oscar/partials/footer.html" %}
 {% endblock %}
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 <!--    &lt;!&ndash; Back to Top &ndash;&gt;-->
 <!--    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>-->
 
@@ -616,15 +590,12 @@
 <!--    &lt;!&ndash; JavaScript Libraries &ndash;&gt;-->
 <!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 <!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>-->
-<!--    <script src="lib/easing/easing.min.js"></script>-->
 
-
-<!--    &lt;!&ndash; Contact Javascript File &ndash;&gt;-->
+    <!--    &lt;!&ndash; Contact Javascript File &ndash;&gt;-->
 <!--    <script src="mail/jqBootstrapValidation.min.js"></script>-->
 <!--    <script src="mail/contact.js"></script>-->
 
 <!--    &lt;!&ndash; Template Javascript &ndash;&gt;-->
-<!--    <script src="js/main.js"></script>-->
 <!--</body>-->
 
 <!--</html>-->
@@ -636,7 +607,8 @@
     <!-- Oscar -->
     <script src="{% static 'oscar/js/oscar/ui.js' %}"></script>
     <script src="{% static 'oscar/lib/owlcarousel/owl.carousel.min.js' %}"></script>
-
+    <script src="{% static 'oscar/js/main.js' %}"></script>
+    <script src="{% static 'oscar/lib/easing/easing.js' %}"></script>
 {% endblock %}
 
 {% block extrascripts %}

@@ -20,13 +20,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
+from .views import HomeView, about_view
 
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-    path('', include('pages.urls')),
+    path('', include('pages.urls'), name='home'),
+    path('', HomeView.as_view(), name='home'),
     path('', include(apps.get_app_config('oscar').urls[0])),
     path('admin/', admin.site.urls),
+    path('catalogue/category/<slug:slug>_<int:pk>/', views.CategoryView.as_view(), name='category_view'),
+    path('about', about_view, name='about'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
