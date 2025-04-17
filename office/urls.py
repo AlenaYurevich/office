@@ -26,8 +26,8 @@ from .views import HomeView, about_view
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-    path('', include('pages.urls'), name='home'),
-    path('', HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='home'),  # Должен быть первым
+    path('pages/', include('pages.urls')),
     path('', include(apps.get_app_config('oscar').urls[0])),
     path('admin/', admin.site.urls),
     path('catalogue/category/<slug:slug>_<int:pk>/', views.CategoryView.as_view(), name='category_view'),
