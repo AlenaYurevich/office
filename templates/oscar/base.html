@@ -1,7 +1,14 @@
 {% extends 'oscar/base.html' %}
 {% load i18n %}
+{% load static %}
 
-
+{% block favicon %}
+ <link rel="icon" href="{% static 'oscar/favicon.ico' %}" type="image/x-icon" sizes="any"><!-- 64×64 -->
+ <link rel="apple-touch-icon" href="{% static 'oscar/img/apple-touch-icon.png' %}"  type="image/png"><!-- 180×180 -->
+ <link rel="icon" href="{% static 'oscar/img/icon_192.png' %}" type="image/png"><!-- 192×192 -->
+ <link rel="icon" href="{% static 'oscar/img/icon_366.png' %}"><!-- 366×366 -->
+{% endblock %}
+<meta name="description" content="{% block description %}{% endblock %}"/>
 {% block title %}
-{% trans "ОффисОК" %}
+{% trans "ОффисОК магазин бытовой химии и канцтоваров для школы и офиса" %}
 {% endblock %}
