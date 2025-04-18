@@ -1,7 +1,7 @@
 # from oscar.views.decorators import login_forbidden
 from django.views.generic import TemplateView, DetailView
 from oscar.apps.catalogue.models import Category
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.db.models import Count
 from oscar.core.loading import get_model
 
@@ -34,14 +34,20 @@ class HomeView(TemplateView):
         context['categories'] = Category.objects.annotate(product_count=Count('product'))
 
         # Получаем категорию по ID=3
-
         promo_category = Category.objects.get(id=3)
-
         promoted_products = Product.objects.filter(
-            categories__in=promo_category.get_descendants_and_self()
-        ).browsable().select_related('parent')
+            categories__in=promo_category.get_descendants_and_self(),
+            is_public=True
+        ).browsable().select_related('parent')[:8]  # Ограничение до 8 товаров
+        new_products = Product.objects.filter(
+            is_public=True
+        ).order_by('-date_created').select_related('parent')[:8]
         context.update({
-            'promoted_products': promoted_products
+            'promoted_products': promoted_products,
+            'new_products': new_products,
+            'categories': Category.objects.annotate(
+                product_count=Count('product')
+            ).filter(depth=1)
         })
         return context
 

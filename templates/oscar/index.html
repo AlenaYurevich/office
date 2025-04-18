@@ -173,17 +173,25 @@
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
                     {% with image=product.primary_image %}
-                    <img class="img-fluid w-75"
+                    <img class="img-fluid w-75 mx-auto d-block"
                          src="{{ image.original.url }}"
                          alt="{{ product.get_title }}">
                     {% endwith %}
-                    <div class="product-action">
-                        <form action="{% url 'basket:add' pk=product.pk %}" method="post">
+                    <div class="product-action position-absolute bottom-0 start-0 end-0 opacity-0 translate-y-100 transition-all">
+                        <!-- Для правильной работы с AJAX -->
+                        <form action="{% url 'basket:add' pk=product.pk %}"
+                              method="post"
+                              class="d-inline block"
+                              data-product-id="{{ product.id }}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-dark btn-square">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit"
+                                    class="btn btn-outline-dark btn-square basket-add-button"
+                                    data-loading-text="Добавляем...">
                                 <i class="fa fa-shopping-cart"></i>
                             </button>
                         </form>
+
                         <a class="btn btn-outline-dark btn-square"
                            href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}">
                             <i class="far fa-heart"></i>
@@ -199,50 +207,17 @@
                        href="{{ product.get_absolute_url }}">
                         {{ product.title }}
                     </a>
-
-
                     <div class="d-flex align-items-center justify-content-center mt-2">
-                        <h5>{{ product.price }}</h5>
-                        {% if product.stockrecord.old_price %}
-                        <h6 class="text-muted ml-2">
-                            <del>{{ product.stockrecord.old_price|currency }}</del>
-                        </h6>
-                        {% endif %}
+                        {% purchase_info_for_product request product as session %}
+                            {% if session.price.exists %}
+                               <h5> {{ session.price.excl_tax|currency:session.price.currency }}</h5>
+                            {% endif %}
                     </div>
-
-
-
                 </div>
             </div>
         </div>
         {% endfor %}
-<div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
     </div>
 </div>
     <!-- Products End -->
@@ -275,174 +250,58 @@
     </div>
     <!-- Offer End -->
 
-
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Последние поступления</span></h2>
         <div class="row px-xl-5">
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
+             {% for product in new_products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <div class="product-item bg-light mb-4">
+                <div class="product-img position-relative overflow-hidden">
+                    {% with image=product.primary_image %}
+                    <img class="img-fluid w-75 mx-auto d-block"
+                         src="{{ image.original.url }}"
+                         alt="{{ product.get_title }}">
+                    {% endwith %}
+                    <div class="product-action position-absolute bottom-0 start-0 end-0 opacity-0 translate-y-100 transition-all">
+                        <!-- Для правильной работы с AJAX -->
+                        <form action="{% url 'basket:add' pk=product.pk %}"
+                              method="post"
+                              class="d-inline block"
+                              data-product-id="{{ product.id }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit"
+                                    class="btn btn-outline-dark btn-square basket-add-button"
+                                    data-loading-text="Добавляем...">
+                                <i class="fa fa-shopping-cart"></i>
+                            </button>
+                        </form>
+                        <a class="btn btn-outline-dark btn-square"
+                           href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}">
+                            <i class="far fa-heart"></i>
+                        </a>
+                        <a class="btn btn-outline-dark btn-square"
+                           href="{{ product.get_absolute_url }}">
+                            <i class="fa fa-search"></i>
+                        </a>
                     </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
+                </div>
+                <div class="text-center py-4">
+                    <a class="h6 text-decoration-none text-truncate"
+                       href="{{ product.get_absolute_url }}">
+                        {{ product.title }}
+                    </a>
+                    <div class="d-flex align-items-center justify-content-center mt-2">
+                        {% purchase_info_for_product request product as session %}
+                            {% if session.price.exists %}
+                               <h5> {{ session.price.excl_tax|currency:session.price.currency }}</h5>
+                            {% endif %}
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-6.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-7.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-8.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        {% endfor %}
         </div>
     </div>
     <!-- Products End -->
@@ -482,29 +341,20 @@
         </div>
     </div>
     <!-- Vendor End -->
-
- {% include "oscar/partials/footer.html" %}
+{% include "oscar/partials/footer.html" %}
 {% endblock %}
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-<!--    &lt;!&ndash; Back to Top &ndash;&gt;-->
-<!--    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>-->
 
-
-<!--    &lt;!&ndash; JavaScript Libraries &ndash;&gt;-->
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 <!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>-->
 
-    <!--    &lt;!&ndash; Contact Javascript File &ndash;&gt;-->
+<!--    &lt;!&ndash; Contact Javascript File &ndash;&gt;-->
 <!--    <script src="mail/jqBootstrapValidation.min.js"></script>-->
 <!--    <script src="mail/contact.js"></script>-->
 
-<!--    &lt;!&ndash; Template Javascript &ndash;&gt;-->
-<!--</body>-->
 
-<!--</html>-->
 {# Local scripts #}
 {% block scripts %}
     {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!-- Twitter Bootstrap -->
     <script src="{% static 'oscar/js/bootstrap4/bootstrap.bundle.min.js' %}"></script>
     <!-- Oscar -->
