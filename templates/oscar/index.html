@@ -344,7 +344,7 @@
 {% include "oscar/partials/footer.html" %}
 {% endblock %}
 
-<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>-->
+
 
 <!--    &lt;!&ndash; Contact Javascript File &ndash;&gt;-->
 <!--    <script src="mail/jqBootstrapValidation.min.js"></script>-->
@@ -354,10 +354,11 @@
 {# Local scripts #}
 {% block scripts %}
     {{ block.super }}
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'oscar/lib/easing/easing.js' %}"></script>
     <script src="{% static 'oscar/lib/owlcarousel/owl.carousel.min.js' %}"></script>
     <script src="{% static 'oscar/js/main.js' %}"></script>
-    <script src="{% static 'oscar/lib/easing/easing.js' %}"></script>
 {% endblock %}
 
 {% block extrascripts %}
