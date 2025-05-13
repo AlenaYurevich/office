@@ -187,24 +187,24 @@
                             <input type="hidden" name="quantity" value="1">
                             <button type="submit"
                                     class="btn btn-outline-dark btn-square basket-add-button"
-                                    data-loading-text="Добавляем...">
+                                    data-loading-text="Добавляем..." title='Добавить в корзину'>
                                 <i class="fa fa-shopping-cart"></i>
                             </button>
                         </form>
 
                         <a class="btn btn-outline-dark btn-square"
-                           href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}">
+                           href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}" title="Добавить в избранное">
                             <i class="far fa-heart"></i>
                         </a>
                         <a class="btn btn-outline-dark btn-square"
-                           href="{{ product.get_absolute_url }}">
+                           href="{{ product.get_absolute_url }}" title='Подробнее'>
                             <i class="fa fa-search"></i>
                         </a>
                     </div>
                 </div>
                 <div class="text-center py-4">
-                    <a class="h6 text-decoration-none text-truncate"
-                       href="{{ product.get_absolute_url }}">
+                    <a class="h6 text-decoration-none text-justify"
+                       href="{{ product.get_absolute_url }}" title='Подробнее'>
                         {{ product.title }}
                     </a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
@@ -273,23 +273,23 @@
                             <input type="hidden" name="quantity" value="1">
                             <button type="submit"
                                     class="btn btn-outline-dark btn-square basket-add-button"
-                                    data-loading-text="Добавляем...">
+                                    data-loading-text="Добавляем..." title="Добавить в корзину">
                                 <i class="fa fa-shopping-cart"></i>
                             </button>
                         </form>
                         <a class="btn btn-outline-dark btn-square"
-                           href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}">
+                           href="{% url 'customer:wishlists-add-product' product_pk=product.pk %}" title="Добавить в избранное">
                             <i class="far fa-heart"></i>
                         </a>
                         <a class="btn btn-outline-dark btn-square"
-                           href="{{ product.get_absolute_url }}">
+                           href="{{ product.get_absolute_url }}" title="Подробнее">
                             <i class="fa fa-search"></i>
                         </a>
                     </div>
                 </div>
                 <div class="text-center py-4">
-                    <a class="h6 text-decoration-none text-truncate"
-                       href="{{ product.get_absolute_url }}">
+                    <a class="h6 text-decoration-none text-justify"
+                       href="{{ product.get_absolute_url }}" title="Подробнее">
                         {{ product.title }}
                     </a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
