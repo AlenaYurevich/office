@@ -6,6 +6,10 @@
     </button>
     <div class="container-fluid">
         <div class="navbar-collapse account-collapse collapse">
+
+Контакты
+
+
             {% block nav_account_languages %}
             {% if LANGUAGES|length > 1 %}
                 <form id="language_selector" class="form-inline mb-0 mt-2 mt-lg-0" action="{% url 'set_language' %}" method="post">
@@ -15,7 +19,7 @@
                         <select name="language" class="form-control">
                             {% get_language_info_list for LANGUAGES as languages %}
                             {% for language in languages %}
-                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE%} selected='selected'{% endif %}>
+                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE%} selected='selected' {% endif %}>
                                     {{ language.name_local }}
                                 </option>
                             {% endfor %}
