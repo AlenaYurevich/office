@@ -21,7 +21,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import HomeView, about_view
+from .views import HomeView, about_view, contact_view
+from django.contrib.flatpages import views as flatpages_views
 
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogue/category/<slug:slug>_<int:pk>/', views.CategoryView.as_view(), name='category_view'),
     path('about', about_view, name='about'),
+    path('contact', contact_view, name='contact'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
