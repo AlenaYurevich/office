@@ -4,6 +4,8 @@ from oscar.apps.catalogue.models import Category
 from django.shortcuts import render
 from django.db.models import Count
 from oscar.core.loading import get_model
+from django.contrib.flatpages.models import FlatPage
+from django.shortcuts import get_object_or_404
 
 
 Product = get_model('catalogue', 'Product')
@@ -53,7 +55,13 @@ class HomeView(TemplateView):
 
 
 def about_view(request):
-    return render(request, 'oscar/about.html')
+    flatpage = get_object_or_404(FlatPage, url='/about/')  # Убедитесь, что URL совпадает с вашим
+    return render(request, 'flatpages/about.html', {'flatpage': flatpage})
+
+
+def contact_view(request):
+    flatpage = get_object_or_404(FlatPage, url='/contact/')  # Убедитесь, что URL совпадает с вашим
+    return render(request, 'flatpages/contact.html', {'flatpage': flatpage})
 
 
 def custom_page_not_found(request, exception):

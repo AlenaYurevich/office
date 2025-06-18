@@ -53,9 +53,13 @@
                             </div>
                         </li>
 
+<a href="{% url 'about' %}" class="nav-item nav-link ">{% trans "О магазине" %}</a>
+<a href="{% url 'contact' %}" class="nav-item nav-link ">{% trans "Контакты" %}</a>
+
+
                    {% endblock %}
                </ul>
-            {% endblock %}
+             {% endblock %}
             {% block nav_extra %}
             <div class="px-xl-5">
                 {% include "oscar/partials/search.html" %}
