@@ -6,6 +6,7 @@ from django.db.models import Count
 from oscar.core.loading import get_model
 from django.contrib.flatpages.models import FlatPage
 from django.shortcuts import get_object_or_404
+from .models import CustomFlatPage
 
 
 Product = get_model('catalogue', 'Product')
@@ -55,7 +56,7 @@ class HomeView(TemplateView):
 
 
 def about_view(request):
-    flatpage = get_object_or_404(FlatPage, url='/about/')  # Убедитесь, что URL совпадает с вашим
+    flatpage = get_object_or_404(CustomFlatPage, url='/about/')  # Убедитесь, что URL совпадает с вашим
     return render(request, 'flatpages/about.html', {'flatpage': flatpage})
 
 

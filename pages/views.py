@@ -16,8 +16,8 @@ class HomeView(TemplateView):
         return context
 
 
-def about_view(request):
-    return render(request, 'oscar/about.html')
+# def about_view(request):
+#     return render(request, 'oscar/about.html')
 
 
 def custom_page_not_found(request, exception):
